@@ -1,60 +1,192 @@
-# A/B Testing Statistical Framework in Python
+# A/B Testing Statistical Framework
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white) ![Statsmodels](https://img.shields.io/badge/Statsmodels-000000?style=for-the-badge&logo=statsmodels&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Statistics](https://img.shields.io/badge/Statistics-FF6B6B?style=for-the-badge)
 
 ---
 
-## 🇧🇷 Framework Estatístico para Testes A/B em Python
+## 🇧🇷 Framework Estatístico para Testes A/B
 
-Este repositório contém um framework completo em Python para o planejamento, execução e análise de testes A/B (e multivariados). O projeto aborda desde os fundamentos estatísticos até a implementação de técnicas mais avançadas, como testes Bayesianos e algoritmos Multi-Armed Bandit.
+Este repositório fornece um framework completo e profissional para **A/B Testing**, combinando abordagens **frequentista** e **bayesiana**. É uma ferramenta essencial para cientistas de dados, analistas de produto e growth hackers que precisam tomar decisões baseadas em dados com rigor estatístico.
 
 ### 🎯 Objetivo
 
-O objetivo é fornecer uma ferramenta robusta e didática para cientistas de dados, analistas e gerentes de produto que precisam tomar decisões baseadas em dados a partir de experimentos. O framework visa garantir a validade estatística dos testes e facilitar a interpretação dos resultados.
+Fornecer um toolkit robusto e bem documentado para conduzir testes A/B de forma profissional, incluindo cálculo de tamanho de amostra, testes de hipótese, análise bayesiana e interpretação de resultados.
 
-### 📂 Conteúdo do Repositório
+### 🌟 Por que este Framework?
 
-*   **/src**: Código-fonte do framework.
-    *   `hypothesis_testing`: Funções para testes de hipóteses (t-test, chi-quadrado, etc.).
-    *   `sample_size`: Ferramentas para cálculo do tamanho da amostra e poder estatístico.
-    *   `bayesian`: Implementação de testes A/B com abordagem Bayesiana.
-    *   `visualization`: Funções para criar visualizações dos resultados dos testes.
-*   **/notebooks**: Jupyter notebooks com exemplos de uso do framework em cenários práticos.
-*   **/tests**: Testes unitários para garantir a corretude das funções estatísticas.
-*   **/data**: Datasets de exemplo para experimentação.
+A/B Testing é fundamental para:
 
-### 🧪 Funcionalidades
+- **Product Development**: Validar features antes do lançamento completo
+- **Marketing**: Otimizar campanhas, CTAs e landing pages
+- **E-commerce**: Aumentar conversão e receita
+- **UX/UI**: Melhorar experiência do usuário baseado em dados
+- **Growth**: Tomar decisões data-driven para crescimento
 
-*   **Testes Frequentistas**: Suporte para os principais testes de hipóteses utilizados no mercado.
-*   **Cálculo de Tamanho de Amostra**: Ferramentas para determinar o tamanho necessário da amostra para obter resultados estatisticamente significantes.
-*   **Testes Bayesianos**: Uma abordagem alternativa que permite a quantificação da probabilidade de uma variante ser melhor que a outra.
-*   **Multi-Armed Bandit**: Algoritmos para otimização de testes em tempo real, ideal para campanhas de marketing e personalização.
+### 📊 Abordagens Estatísticas
+
+#### Frequentista vs Bayesiana
+
+| Aspecto | Frequentista | Bayesiana |
+|---------|--------------|-----------|
+| **Filosofia** | Probabilidade como frequência de longo prazo | Probabilidade como grau de crença |
+| **Output** | P-valor e intervalo de confiança | Probabilidade de B > A |
+| **Interpretação** | Rejeitar ou não H₀ | Probabilidade direta do resultado |
+| **Stopping Rule** | Deve ser definido antes | Pode parar quando quiser |
+| **Prior Knowledge** | Não utiliza | Incorpora conhecimento prévio |
+
+### 📂 Estrutura do Repositório
+
+```
+ab-testing-statistical-framework-python/
+├── src/
+│   └── hypothesis_testing/
+│       └── ab_test.py                 # Framework principal
+├── tests/
+│   └── test_ab_framework.py           # Testes unitários
+├── requirements.txt
+└── README.md
+```
+
+### 🚀 Instalação e Uso
+
+```bash
+# Clone o repositório
+git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
+
+# Navegue até o diretório
+cd ab-testing-statistical-framework-python
+
+# Instale as dependências
+pip install scipy numpy pandas
+
+# Execute o exemplo
+python src/hypothesis_testing/ab_test.py
+```
+
+**Saída esperada:**
+```
+Sample Size Calculation:
+------------------------------------------------------------
+Required sample size per group: 3841
+
+============================================================
+A/B TEST RESULTS (FREQUENTIST)
+============================================================
+Conversion Rate A: 0.0800
+Conversion Rate B: 0.0967
+Absolute Difference: 0.0167
+Relative Lift: 20.83%
+Z-Statistic: 1.6084
+P-Value: 0.1077
+Significant: False
+95% CI: (-0.0036, 0.0370)
+============================================================
+
+============================================================
+A/B TEST RESULTS (BAYESIAN)
+============================================================
+Probability B > A: 94.38%
+Probability A > B: 5.62%
+Expected Loss (choosing B): 0.000248
+Expected Loss (choosing A): 0.016875
+============================================================
+```
+
+### 📝 Exemplos de Uso
+
+#### 1. Cálculo de Tamanho de Amostra
+
+Antes de iniciar um teste A/B, é crucial calcular quantos usuários você precisa:
+
+```python
+from src.hypothesis_testing.ab_test import ABTest
+
+# Inicializar framework
+ab_test = ABTest(alpha=0.05, power=0.80)
+
+# Calcular tamanho de amostra necessário
+sample_size = ab_test.calculate_sample_size(
+    baseline_rate=0.10,      # Taxa de conversão atual: 10%
+    mde=0.20,                # Efeito mínimo detectável: 20% de melhoria
+    ratio=1.0                # Proporção 1:1 entre controle e tratamento
+)
+
+print(f"Você precisa de {sample_size} usuários por grupo")
+# Output: Você precisa de 3841 usuários por grupo
+```
+
+#### 2. Teste Frequentista (Z-Test)
+
+```python
+# Dados do teste
+conversions_a = 120    # Conversões no grupo A (controle)
+visitors_a = 1500      # Visitantes no grupo A
+
+conversions_b = 145    # Conversões no grupo B (tratamento)
+visitors_b = 1500      # Visitantes no grupo B
+
+# Executar teste
+results = ab_test.two_proportion_ztest(
+    conversions_a, visitors_a,
+    conversions_b, visitors_b
+)
+
+# Imprimir resultados
+ab_test.print_results(results, 'frequentist')
+```
+
+#### 3. Teste Bayesiano
+
+```python
+# Executar análise bayesiana
+bayes_results = ab_test.bayesian_ab_test(
+    conversions_a, visitors_a,
+    conversions_b, visitors_b,
+    n_simulations=100000
+)
+
+# Imprimir resultados
+ab_test.print_results(bayes_results, 'bayesian')
+```
+
+### 🎓 Conceitos Estatísticos
+
+| Conceito | Definição | Valor Típico |
+|----------|-----------|--------------|
+| **Alpha (α)** | Probabilidade de erro tipo I (falso positivo) | 0.05 (5%) |
+| **Beta (β)** | Probabilidade de erro tipo II (falso negativo) | 0.20 (20%) |
+| **Power (1-β)** | Probabilidade de detectar efeito real | 0.80 (80%) |
+| **MDE** | Minimum Detectable Effect (menor efeito detectável) | 10-20% |
+| **P-value** | Probabilidade de observar resultado se H₀ for verdadeira | < 0.05 para significância |
+
+### 🔧 Funcionalidades do Framework
+
+| Funcionalidade | Descrição | Método |
+|----------------|-----------|--------|
+| **Sample Size Calculation** | Calcula n necessário | `calculate_sample_size()` |
+| **Z-Test** | Teste frequentista de duas proporções | `two_proportion_ztest()` |
+| **Bayesian Test** | Análise bayesiana com Beta distributions | `bayesian_ab_test()` |
+| **Confidence Intervals** | Intervalos de confiança para diferença | Incluído no Z-test |
+| **Expected Loss** | Perda esperada de cada decisão | Incluído no Bayesian |
+| **Relative Lift** | Percentual de melhoria | Calculado automaticamente |
 
 ---
 
-## 🇬🇧 A/B Testing Statistical Framework in Python
+## 🇬🇧 A/B Testing Statistical Framework
 
-This repository contains a complete Python framework for planning, executing, and analyzing A/B (and multivariate) tests. The project covers everything from statistical fundamentals to the implementation of more advanced techniques, such as Bayesian testing and Multi-Armed Bandit algorithms.
+This repository provides a complete and professional framework for **A/B Testing**, combining **frequentist** and **Bayesian** approaches.
 
-### 🎯 Objective
+### 🚀 Installation and Usage
 
-The goal is to provide a robust and educational tool for data scientists, analysts, and product managers who need to make data-driven decisions based on experiments. The framework aims to ensure the statistical validity of tests and facilitate the interpretation of results.
+```bash
+git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
+cd ab-testing-statistical-framework-python
+pip install scipy numpy pandas
+python src/hypothesis_testing/ab_test.py
+```
 
-### 📂 Repository Content
+---
 
-*   **/src**: Framework source code.
-    *   `hypothesis_testing`: Functions for hypothesis tests (t-test, chi-squared, etc.).
-    *   `sample_size`: Tools for calculating sample size and statistical power.
-    *   `bayesian`: Implementation of A/B tests with a Bayesian approach.
-    *   `visualization`: Functions to create visualizations of test results.
-*   **/notebooks**: Jupyter notebooks with examples of the framework's use in practical scenarios.
-*   **/tests**: Unit tests to ensure the correctness of the statistical functions.
-*   **/data**: Example datasets for experimentation.
-
-### 🧪 Features
-
-*   **Frequentist Tests**: Support for the main hypothesis tests used in the industry.
-*   **Sample Size Calculation**: Tools to determine the necessary sample size to achieve statistically significant results.
-*   **Bayesian Tests**: An alternative approach that allows quantifying the probability of one variant being better than another.
-*   **Multi-Armed Bandit**: Algorithms for real-time test optimization, ideal for marketing campaigns and personalization.
-
+**Author:** Gabriel Demetrios Lafis  
+**License:** MIT  
+**Last Updated:** October 2025

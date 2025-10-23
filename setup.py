@@ -33,7 +33,8 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=[
-        "scipy>=1.11.0",
+        'scipy>=1.9.3,<1.11.0; python_version < "3.9"',
+        'scipy>=1.11.0; python_version >= "3.9"',
         "numpy>=1.24.0",
         "pandas>=2.0.0",
     ],

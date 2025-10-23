@@ -1,5 +1,6 @@
 # A/B Testing Statistical Framework
 
+![Tests](https://github.com/galafis/ab-testing-statistical-framework-python/workflows/Tests/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Statistics](https://img.shields.io/badge/Statistics-FF6B6B?style=for-the-badge)
 
 ---
@@ -169,6 +170,35 @@ ab_test.print_results(bayes_results, 'bayesian')
 | **Confidence Intervals** | Intervalos de confiança para diferença | Incluído no Z-test |
 | **Expected Loss** | Perda esperada de cada decisão | Incluído no Bayesian |
 | **Relative Lift** | Percentual de melhoria | Calculado automaticamente |
+
+### 🧪 Testes
+
+O framework possui uma suite completa de testes com **83%+ de cobertura**:
+
+```bash
+# Executar todos os testes
+pytest tests/ -v
+
+# Executar com relatório de cobertura
+pytest tests/ --cov=src --cov-report=term-missing
+```
+
+**Testes incluem:**
+- Testes unitários para todas as funções principais
+- Testes de integração para workflows completos
+- Testes de casos extremos (edge cases)
+- Validação de precisão estatística
+
+### 🤝 Como Contribuir
+
+Contribuições são bem-vindas! Por favor, leia o [CONTRIBUTING.md](CONTRIBUTING.md) para detalhes sobre nosso código de conduta e processo de submissão de pull requests.
+
+**Passos para contribuir:**
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
 ---
 

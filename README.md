@@ -41,10 +41,16 @@ A/B Testing é fundamental para:
 ab-testing-statistical-framework-python/
 ├── src/
 │   └── hypothesis_testing/
-│       └── ab_test.py                 # Framework principal
+│       ├── __init__.py
+│       └── ab_test.py             # Framework principal
 ├── tests/
-│   └── test_ab_framework.py           # Testes unitários
+│   └── test_ab_framework.py       # Testes unitários
+├── images/                        # Visualizações geradas
+├── setup.py                       # Configuração de instalação
 ├── requirements.txt
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+├── LICENSE
 └── README.md
 ```
 
@@ -58,7 +64,7 @@ git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
 cd ab-testing-statistical-framework-python
 
 # Instale as dependências
-pip install scipy numpy pandas
+pip install -r requirements.txt
 
 # Execute o exemplo
 python src/hypothesis_testing/ab_test.py
@@ -211,7 +217,7 @@ This repository provides a complete and professional framework for **A/B Testing
 ```bash
 git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
 cd ab-testing-statistical-framework-python
-pip install scipy numpy pandas
+pip install -r requirements.txt
 python src/hypothesis_testing/ab_test.py
 ```
 
@@ -219,4 +225,4 @@ python src/hypothesis_testing/ab_test.py
 
 **Author:** Gabriel Demetrios Lafis  
 **License:** MIT  
-**Last Updated:** October 2025
+**Last Updated:** February 2026

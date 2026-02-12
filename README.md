@@ -1,27 +1,19 @@
 # A/B Testing Statistical Framework
 
-![Tests](https://github.com/galafis/ab-testing-statistical-framework-python/workflows/Tests/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white) ![Statistics](https://img.shields.io/badge/Statistics-FF6B6B?style=for-the-badge)
 
 ---
 
 ## 🇧🇷 Framework Estatístico para Testes A/B
 
-Este repositório fornece um framework completo e profissional para **A/B Testing**, combinando abordagens **frequentista** e **bayesiana**. É uma ferramenta essencial para cientistas de dados, analistas de produto e growth hackers que precisam tomar decisões baseadas em dados com rigor estatístico.
+Framework para **A/B Testing** que combina abordagens **frequentista** e **bayesiana**. Inclui cálculo de tamanho de amostra, testes de hipótese (z-test de duas proporções), análise bayesiana com distribuições Beta e interpretação formatada dos resultados.
 
-### 🎯 Objetivo
+### Casos de Uso
 
-Fornecer um toolkit robusto e bem documentado para conduzir testes A/B de forma profissional, incluindo cálculo de tamanho de amostra, testes de hipótese, análise bayesiana e interpretação de resultados.
-
-### 🌟 Por que este Framework?
-
-A/B Testing é fundamental para:
-
-- **Product Development**: Validar features antes do lançamento completo
-- **Marketing**: Otimizar campanhas, CTAs e landing pages
-- **E-commerce**: Aumentar conversão e receita
-- **UX/UI**: Melhorar experiência do usuário baseado em dados
-- **Growth**: Tomar decisões data-driven para crescimento
+- Validar mudanças de produto antes do lançamento
+- Otimizar campanhas de marketing e landing pages
+- Medir impacto de alterações em UX/UI
+- Comparar taxas de conversão entre variantes
 
 ### 📊 Abordagens Estatísticas
 
@@ -54,7 +46,15 @@ ab-testing-statistical-framework-python/
 └── README.md
 ```
 
-### 🚀 Instalação e Uso
+### � Visualizações
+
+O framework gera visualizações para auxiliar na análise dos testes:
+
+![Distribuições do Teste A/B](images/ab_test_distributions.png)
+
+![Poder Estatístico](images/statistical_power.png)
+
+### �🚀 Instalação e Uso
 
 ```bash
 # Clone o repositório
@@ -179,8 +179,6 @@ ab_test.print_results(bayes_results, 'bayesian')
 
 ### 🧪 Testes
 
-O framework possui uma suite completa de testes com **83%+ de cobertura**:
-
 ```bash
 # Executar todos os testes
 pytest tests/ -v
@@ -189,11 +187,13 @@ pytest tests/ -v
 pytest tests/ --cov=src --cov-report=term-missing
 ```
 
-**Testes incluem:**
-- Testes unitários para todas as funções principais
-- Testes de integração para workflows completos
-- Testes de casos extremos (edge cases)
-- Validação de precisão estatística
+Os testes cobrem:
+- Inicialização e configuração do framework
+- Cálculo de tamanho de amostra
+- Z-test de duas proporções
+- Análise bayesiana
+- Casos extremos (edge cases)
+- Fluxos de uso ponta a ponta
 
 ### 🤝 Como Contribuir
 
@@ -210,9 +210,9 @@ Contribuições são bem-vindas! Por favor, leia o [CONTRIBUTING.md](CONTRIBUTIN
 
 ## 🇬🇧 A/B Testing Statistical Framework
 
-This repository provides a complete and professional framework for **A/B Testing**, combining **frequentist** and **Bayesian** approaches.
+A Python framework for A/B testing that supports both **frequentist** (two-proportion z-test) and **Bayesian** (Beta-Binomial model) approaches. It handles sample size calculation, hypothesis testing, and formatted result output.
 
-### 🚀 Installation and Usage
+### Installation and Usage
 
 ```bash
 git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
@@ -220,6 +220,8 @@ cd ab-testing-statistical-framework-python
 pip install -r requirements.txt
 python src/hypothesis_testing/ab_test.py
 ```
+
+See the Portuguese sections above for detailed usage examples and API documentation — the code and output are language-agnostic.
 
 ---
 

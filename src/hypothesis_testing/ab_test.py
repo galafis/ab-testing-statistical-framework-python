@@ -46,8 +46,21 @@ class ABTest:
         --------
         int : Required sample size per group
         """
+        if not (0 < baseline_rate < 1):
+            raise ValueError("baseline_rate must be between 0 and 1 (exclusive)")
+        if mde <= 0:
+            raise ValueError("mde must be greater than 0")
+        if ratio <= 0:
+            raise ValueError("ratio must be greater than 0")
+
         p1 = baseline_rate
         p2 = baseline_rate * (1 + mde)
+
+        if p2 >= 1:
+            raise ValueError(
+                f"Resulting treatment rate ({p2:.4f}) must be less than 1. "
+                "Reduce baseline_rate or mde."
+            )
 
         # Pooled proportion
         p_pooled = (p1 + ratio * p2) / (1 + ratio)
@@ -88,6 +101,27 @@ class ABTest:
         --------
         dict : Test results including p-value, confidence interval, and effect size
         """
+        if visitors_a <= 0 or visitors_b <= 0:
+            raise ValueError("Number of visitors must be greater than 0")
+        if conversions_a < 0 or conversions_b < 0:
+            raise ValueError("Number of conversions cannot be negative")
+        if conversions_a > visitors_a or conversions_b > visitors_b:
+            raise ValueError("Conversions cannot exceed visitors")
+
+        # Handle edge case where both groups have zero conversions
+        if conversions_a == 0 and conversions_b == 0:
+            return {
+                "conversion_rate_a": 0.0,
+                "conversion_rate_b": 0.0,
+                "absolute_difference": 0.0,
+                "relative_lift": 0.0,
+                "z_statistic": 0.0,
+                "p_value": 1.0,
+                "is_significant": False,
+                "confidence_interval": (0.0, 0.0),
+                "confidence_level": 1 - self.alpha,
+            }
+
         # Calculate proportions
         p_a = conversions_a / visitors_a
         p_b = conversions_b / visitors_b
@@ -155,6 +189,13 @@ class ABTest:
         --------
         dict : Bayesian test results
         """
+        if visitors_a <= 0 or visitors_b <= 0:
+            raise ValueError("Number of visitors must be greater than 0")
+        if conversions_a < 0 or conversions_b < 0:
+            raise ValueError("Number of conversions cannot be negative")
+        if conversions_a > visitors_a or conversions_b > visitors_b:
+            raise ValueError("Conversions cannot exceed visitors")
+
         # Prior: Beta(1, 1) - uniform prior
         alpha_prior = 1
         beta_prior = 1
@@ -167,8 +208,9 @@ class ABTest:
         beta_b = beta_prior + (visitors_b - conversions_b)
 
         # Sample from posterior distributions
-        samples_a = np.random.beta(alpha_a, beta_a, n_simulations)
-        samples_b = np.random.beta(alpha_b, beta_b, n_simulations)
+        rng = np.random.default_rng()
+        samples_a = rng.beta(alpha_a, beta_a, n_simulations)
+        samples_b = rng.beta(alpha_b, beta_b, n_simulations)
 
         # Probability that B is better than A
         prob_b_better = np.mean(samples_b > samples_a)
@@ -210,8 +252,9 @@ class ABTest:
             print(f"Z-Statistic: {results['z_statistic']:.4f}")
             print(f"P-Value: {results['p_value']:.4f}")
             print(f"Significant: {results['is_significant']}")
+            confidence_pct = results.get('confidence_level', 1 - self.alpha) * 100
             print(
-                f"95% CI: ({results['confidence_interval'][0]:.4f}, {results['confidence_interval'][1]:.4f})"
+                f"{confidence_pct:.0f}% CI: ({results['confidence_interval'][0]:.4f}, {results['confidence_interval'][1]:.4f})"
             )
 
         elif test_type == "bayesian":

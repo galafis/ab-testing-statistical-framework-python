@@ -1,290 +1,213 @@
-# 🚀 Ab Testing Statistical Framework Python
+# A/B Testing Statistical Framework
 
-> Statistical framework for A/B testing and experimentation. Implements hypothesis testing, power analysis, sequential testing, and Bayesian methods for data-driven decision making.
+Framework estatistico para testes A/B com abordagens frequentista e bayesiana.
 
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](https://img.shields.io/badge/)
-[![Gin](https://img.shields.io/badge/Gin-1.9-00ADD8.svg)](https://img.shields.io/badge/)
-[![NumPy](https://img.shields.io/badge/NumPy-1.26-013243.svg)](https://img.shields.io/badge/)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://python.org)
+[![SciPy](https://img.shields.io/badge/SciPy-1.11-8CAAE6.svg)](https://scipy.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[English](#english) | [Português](#português)
+[English](#english) | [Portugues](#portugues)
+
+---
+
+## Portugues
+
+### Visao Geral
+
+Biblioteca Python para testes A/B de taxa de conversao, implementando tanto o teste frequentista (z-test de duas proporcoes) quanto o teste bayesiano (priori Beta-Binomial com amostragem Monte Carlo). Inclui calculo de tamanho amostral necessario.
+
+### Arquitetura
+
+```mermaid
+graph LR
+    subgraph ABTest["Classe ABTest"]
+        A[Calculo Amostral]
+        B[Teste Frequentista - z-test]
+        C[Teste Bayesiano - Beta-Binomial]
+    end
+
+    D[Dados de Conversao] --> A
+    D --> B
+    D --> C
+    B --> E[p-valor + Intervalo de Confianca]
+    C --> F[Probabilidade de Superioridade]
+```
+
+### Funcionalidades
+
+- **Calculo de tamanho amostral** — determina visitantes necessarios para significancia estatistica
+- **Teste frequentista** — z-test de duas proporcoes com p-valor e intervalo de confianca
+- **Teste bayesiano** — priori Beta(1,1) com amostragem Monte Carlo (10.000 simulacoes)
+- **Validacao de entrada** — verificacao de parametros antes da execucao
+- **Impressao de resultados** — formatacao legivel dos resultados
+
+### Como Executar
+
+```bash
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Executar demo
+python src/hypothesis_testing/ab_test.py
+
+# Executar testes (25 testes)
+pytest tests/test_ab_framework.py -v
+```
+
+### Exemplo de Uso
+
+```python
+from src.hypothesis_testing.ab_test import ABTest
+
+ab = ABTest()
+
+# Calculo de tamanho amostral
+sample_size = ab.calculate_sample_size(
+    baseline_rate=0.10,
+    minimum_detectable_effect=0.02
+)
+
+# Teste frequentista
+result = ab.run_frequentist_test(
+    visitors_a=1000, conversions_a=100,
+    visitors_b=1000, conversions_b=130
+)
+
+# Teste bayesiano
+bayesian = ab.run_bayesian_test(
+    visitors_a=1000, conversions_a=100,
+    visitors_b=1000, conversions_b=130
+)
+```
+
+### Estrutura do Projeto
+
+```
+ab-testing-statistical-framework-python/
+├── src/
+│   ├── __init__.py
+│   └── hypothesis_testing/
+│       ├── __init__.py
+│       └── ab_test.py            # Classe ABTest (~300 linhas)
+├── tests/
+│   ├── __init__.py
+│   └── test_ab_framework.py     # 25 testes
+├── .gitignore
+├── LICENSE
+├── README.md
+├── requirements.txt
+└── setup.py
+```
+
+### Tecnologias
+
+| Tecnologia | Uso |
+|------------|-----|
+| Python | Linguagem principal |
+| SciPy | Funcoes estatisticas (norm) |
+| NumPy | Computacao numerica (amostragem Beta) |
 
 ---
 
 ## English
 
-### 🎯 Overview
+### Overview
 
-**Ab Testing Statistical Framework Python** is a production-grade Python application that showcases modern software engineering practices including clean architecture, comprehensive testing, containerized deployment, and CI/CD readiness.
+Python library for A/B testing of conversion rates, implementing both frequentist (two-proportion z-test) and Bayesian (Beta-Binomial conjugate prior with Monte Carlo sampling) approaches. Includes required sample size calculation.
 
-The codebase comprises **803 lines** of source code organized across **6 modules**, following industry best practices for maintainability, scalability, and code quality.
-
-### ✨ Key Features
-
-- **🏗️ Object-Oriented**: 5 core classes with clean architecture
-- **📐 Clean Architecture**: Modular design with clear separation of concerns
-- **🧪 Test Coverage**: Unit and integration tests for reliability
-- **📚 Documentation**: Comprehensive inline documentation and examples
-- **🔧 Configuration**: Environment-based configuration management
-
-### 🏗️ Architecture
+### Architecture
 
 ```mermaid
-graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[Web Client]
-        B[API Documentation]
+graph LR
+    subgraph ABTest["ABTest Class"]
+        A[Sample Size Calculation]
+        B[Frequentist Test - z-test]
+        C[Bayesian Test - Beta-Binomial]
     end
-    
-    subgraph API["⚡ API Layer"]
-        C[Middleware Pipeline]
-        D[Route Handlers]
-        E[Business Logic]
-    end
-    
-    subgraph Data["💾 Data Layer"]
-        F[(Primary Database)]
-        G[Cache]
-    end
-    
-    A --> C
-    B --> C
-    C --> D --> E
-    E --> F
-    E --> G
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style Data fill:#fff3e0
+
+    D[Conversion Data] --> A
+    D --> B
+    D --> C
+    B --> E[p-value + Confidence Interval]
+    C --> F[Probability of Superiority]
 ```
 
-### 🚀 Quick Start
+### Features
 
-#### Prerequisites
+- **Sample size calculation** — determines visitors needed for statistical significance
+- **Frequentist test** — two-proportion z-test with p-value and confidence interval
+- **Bayesian test** — Beta(1,1) prior with Monte Carlo sampling (10,000 simulations)
+- **Input validation** — parameter checking before execution
+- **Result printing** — readable formatting of results
 
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
+### How to Run
 
 ```bash
-# Clone the repository
-git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
-cd ab-testing-statistical-framework-python
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
 # Install dependencies
 pip install -r requirements.txt
+
+# Run demo
+python src/hypothesis_testing/ab_test.py
+
+# Run tests (25 tests)
+pytest tests/test_ab_framework.py -v
 ```
 
-#### Running
+### Usage Example
 
-```bash
-# Run the application
-python src/main.py
+```python
+from src.hypothesis_testing.ab_test import ABTest
+
+ab = ABTest()
+
+# Sample size calculation
+sample_size = ab.calculate_sample_size(
+    baseline_rate=0.10,
+    minimum_detectable_effect=0.02
+)
+
+# Frequentist test
+result = ab.run_frequentist_test(
+    visitors_a=1000, conversions_a=100,
+    visitors_b=1000, conversions_b=130
+)
+
+# Bayesian test
+bayesian = ab.run_bayesian_test(
+    visitors_a=1000, conversions_a=100,
+    visitors_b=1000, conversions_b=130
+)
 ```
 
-### 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage report
-pytest --cov --cov-report=html
-
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
-```
-
-### 📁 Project Structure
+### Project Structure
 
 ```
 ab-testing-statistical-framework-python/
-├── images/
-├── src/          # Source code
-│   ├── hypothesis_testing/
-│   │   ├── __init__.py
-│   │   └── ab_test.py
-│   └── __init__.py
-├── tests/         # Test suite
+├── src/
 │   ├── __init__.py
-│   └── test_ab_framework.py
-├── CHANGELOG.md
-├── CONTRIBUTING.md
+│   └── hypothesis_testing/
+│       ├── __init__.py
+│       └── ab_test.py            # ABTest class (~300 lines)
+├── tests/
+│   ├── __init__.py
+│   └── test_ab_framework.py     # 25 tests
+├── .gitignore
 ├── LICENSE
 ├── README.md
 ├── requirements.txt
 └── setup.py
 ```
 
-### 🛠️ Tech Stack
+### Technologies
 
-| Technology | Description | Role |
-|------------|-------------|------|
-| **Python** | Core Language | Primary |
-| **Gin** | Go web framework | Framework |
-| **NumPy** | Numerical computing | Framework |
-
-### 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### 👤 Author
-
-**Gabriel Demetrios Lafis**
-- GitHub: [@galafis](https://github.com/galafis)
-- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)
+| Technology | Usage |
+|------------|-------|
+| Python | Core language |
+| SciPy | Statistical functions (norm) |
+| NumPy | Numerical computation (Beta sampling) |
 
 ---
 
-## Português
-
-### 🎯 Visão Geral
-
-**Ab Testing Statistical Framework Python** é uma aplicação Python de nível profissional que demonstra práticas modernas de engenharia de software, incluindo arquitetura limpa, testes abrangentes, implantação containerizada e prontidão para CI/CD.
-
-A base de código compreende **803 linhas** de código-fonte organizadas em **6 módulos**, seguindo as melhores práticas do setor para manutenibilidade, escalabilidade e qualidade de código.
-
-### ✨ Funcionalidades Principais
-
-- **🏗️ Object-Oriented**: 5 core classes with clean architecture
-- **📐 Clean Architecture**: Modular design with clear separation of concerns
-- **🧪 Test Coverage**: Unit and integration tests for reliability
-- **📚 Documentation**: Comprehensive inline documentation and examples
-- **🔧 Configuration**: Environment-based configuration management
-
-### 🏗️ Arquitetura
-
-```mermaid
-graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[Web Client]
-        B[API Documentation]
-    end
-    
-    subgraph API["⚡ API Layer"]
-        C[Middleware Pipeline]
-        D[Route Handlers]
-        E[Business Logic]
-    end
-    
-    subgraph Data["💾 Data Layer"]
-        F[(Primary Database)]
-        G[Cache]
-    end
-    
-    A --> C
-    B --> C
-    C --> D --> E
-    E --> F
-    E --> G
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style Data fill:#fff3e0
-```
-
-### 🚀 Início Rápido
-
-#### Prerequisites
-
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/galafis/ab-testing-statistical-framework-python.git
-cd ab-testing-statistical-framework-python
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### Running
-
-```bash
-# Run the application
-python src/main.py
-```
-
-### 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage report
-pytest --cov --cov-report=html
-
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
-```
-
-### 📁 Estrutura do Projeto
-
-```
-ab-testing-statistical-framework-python/
-├── images/
-├── src/          # Source code
-│   ├── hypothesis_testing/
-│   │   ├── __init__.py
-│   │   └── ab_test.py
-│   └── __init__.py
-├── tests/         # Test suite
-│   ├── __init__.py
-│   └── test_ab_framework.py
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── setup.py
-```
-
-### 🛠️ Stack Tecnológica
-
-| Tecnologia | Descrição | Papel |
-|------------|-----------|-------|
-| **Python** | Core Language | Primary |
-| **Gin** | Go web framework | Framework |
-| **NumPy** | Numerical computing | Framework |
-
-### 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
-
-### 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-### 👤 Autor
-
-**Gabriel Demetrios Lafis**
+**Autor / Author:** Gabriel Demetrios Lafis
 - GitHub: [@galafis](https://github.com/galafis)
 - LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)

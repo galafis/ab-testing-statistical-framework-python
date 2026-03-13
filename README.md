@@ -5,6 +5,7 @@ Framework estatistico para testes A/B com abordagens frequentista e bayesiana.
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://python.org)
 [![SciPy](https://img.shields.io/badge/SciPy-1.11-8CAAE6.svg)](https://scipy.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
 
 [English](#english) | [Portugues](#portugues)
 
